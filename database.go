@@ -3,14 +3,13 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var (
-	host     = os.Getenv("host")
-	password = os.Getenv("password")
+	host     = "database-test.c3lf9o6zdmvb.us-east-1.rds.amazonaws.com"
+	password = "Karloo123!"
 	port     = "3306"
 	user     = "root"
 	dbName   = "InstantTennis"

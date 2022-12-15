@@ -64,14 +64,51 @@ func Handle(ctx context.Context, req HandleRequest) (interface{}, error) {
 	initDatabaseConnection()
 
 	//This is the first row in the json request and will do certain things based on this variable
+	logger.Info("before switch case")
 	switch req.Event {
 	// EMPLOYEE
-	case "test":
-		var dest TestRequest
+	case "aces":
+		var dest AcesRequest
 		if err := json.Unmarshal(req.Body, &dest); err != nil {
 			return nil, err
 		}
-		return TestFunc(dest)
+		return GetAce(dest, db)
+	case "doubleFaults":
+		var dest DFRequest
+		if err := json.Unmarshal(req.Body, &dest); err != nil {
+			return nil, err
+		}
+		return GetDF(dest, db)
+	case "overallServe":
+		var dest ServeRequest
+		if err := json.Unmarshal(req.Body, &dest); err != nil {
+			return nil, err
+		}
+		return GetServe(dest, db)
+	case "firstIn":
+		var dest FirstServeInRequest
+		if err := json.Unmarshal(req.Body, &dest); err != nil {
+			return nil, err
+		}
+		return GetFirstServeIn(dest, db)
+	case "firstWon":
+		var dest FirstServeWonRequest
+		if err := json.Unmarshal(req.Body, &dest); err != nil {
+			return nil, err
+		}
+		return GetFirstServeWon(dest, db)
+	case "secondWon":
+		var dest SecondServeWonRequest
+		if err := json.Unmarshal(req.Body, &dest); err != nil {
+			return nil, err
+		}
+		return GetSecondServeWon(dest, db)
+	case "break":
+		var dest BreakRequest
+		if err := json.Unmarshal(req.Body, &dest); err != nil {
+			return nil, err
+		}
+		return GetBreak(dest, db)
 	}
 	db.Close()
 	return HandleResponse{OK: false, ReqID: reqID}, fmt.Errorf("%s is an unknown event", req.Event)
